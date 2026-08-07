@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
 
 
 export class LoginPage {
@@ -31,6 +31,10 @@ export class LoginPage {
 
     async clickLogin() {
         await this.loginButton.click();
+    }
+
+    async verifyErrorMessage(message: string) {
+    await expect(this.errorMessage).toHaveText(message);
     }
 
     async login(username: string, password: string) {
