@@ -38,9 +38,15 @@ export class LoginPage {
     }
 
     async login(username: string, password: string) {
-        await this.enterUsername(username);
-        await this.enterPassword(password);
-        await this.clickLogin();
+    await this.enterUsername(username);
+    await this.enterPassword(password);
+    await this.clickLogin();
+    }
+    
+    async waitForDashboard() {
+    await this.page.waitForURL(/dashboard/, {
+        timeout: 10000
+    });
     }
 }
 
