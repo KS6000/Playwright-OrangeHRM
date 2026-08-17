@@ -19,4 +19,9 @@ export class DashboardPage  {
     async openUserMenu() {
         await this.userDropdown.click();
     }
+
+    async logout() {
+    await this.userDropdown.click();
+    await this.page.getByRole('menuitem', { name: 'Logout' }).click();
+    }
 }
