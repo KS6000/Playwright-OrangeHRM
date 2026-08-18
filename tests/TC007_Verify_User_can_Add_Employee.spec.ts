@@ -1,17 +1,19 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 import { DashboardPage } from '../pages/DashboardPage';
+import { PIMPage } from '../pages/PIMPage';
 import { testData } from '../utils/testData';
 
-test('TC001 - Verify user can login with valid credentials', async ({ page }) => {
+test('TC007 - Verify User can Open Add Employee page', async ({ page }) => {
 
     const loginPage = new LoginPage(page);
     const dashboardPage = new DashboardPage(page);
+    const pimPage = new PIMPage(page);
 
     await loginPage.navigateToLoginPage();
 
     await loginPage.login(
-        testData.username, 
+        testData.username,
         testData.password
     );
 
@@ -19,5 +21,11 @@ test('TC001 - Verify user can login with valid credentials', async ({ page }) =>
 
     await dashboardPage.verifyDashboardLoaded();
 
-    await expect(page).toHaveURL(/dashboard/);
+    await pimPage.navigateToPIM();
+
+    await pimPage.verifyPIMPageLoaded();
+
+    await pimPage.clickAddEmployeeButton();
+
+    await pimPage.verifyAddEmployeePageLoaded();
 });

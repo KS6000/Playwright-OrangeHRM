@@ -6,6 +6,7 @@ export class PIMPage {
     readonly pimHeading: Locator;
     readonly employeeInformationHeading: Locator;
     readonly addEmployeeButton: Locator;
+    readonly addEmployeeHeading: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -13,6 +14,7 @@ export class PIMPage {
         this.pimHeading = page.getByRole('heading', { name: 'PIM' });
         this.employeeInformationHeading = page.locator('h6');
         this.addEmployeeButton = page.locator('button:has-text("Add")');
+        this.addEmployeeHeading = page.getByRole('heading', { name: 'Add Employee' });
 
     }
 
@@ -26,6 +28,10 @@ export class PIMPage {
 
     async clickAddEmployeeButton() {
         await this.addEmployeeButton.click();
+    }
+
+    async verifyAddEmployeePageLoaded() {
+    await expect(this.addEmployeeHeading).toHaveText('Add Employee');
     }
 
 }

@@ -17,6 +17,8 @@ test('TC006 - Verify user can navigate to PIM module', async ({ page }) => {
         testData.password
     );
 
+    await loginPage.waitForDashboard();
+
     await dashboardPage.verifyDashboardLoaded();
 
     await pimPage.navigateToPIM();
