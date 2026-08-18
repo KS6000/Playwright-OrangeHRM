@@ -10,6 +10,11 @@ export class PIMPage {
     readonly employeeNameInput: Locator;
     readonly searchButton: Locator;
     readonly employeeResult: Locator;
+    readonly editButton: Locator;
+    readonly middleNameInput: Locator;
+    readonly saveButton: Locator;
+    readonly personalDetailsHeading: Locator;
+    readonly successToast: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -21,6 +26,11 @@ export class PIMPage {
         this.employeeNameInput = page.locator('input').nth(1);
         this.searchButton = page.getByRole('button', { name: 'Search' });
         this.employeeResult = page.locator('.oxd-table-body');
+        this.editButton = page.locator('.oxd-icon.bi-pencil-fill').first();
+        this.personalDetailsHeading = page.getByRole('heading', {name: 'Personal Details'});
+        this.middleNameInput = page.locator('input').nth(2);
+        this.saveButton = page.getByRole('button', { name: 'Save' }).first();
+        this.successToast = page.locator('.oxd-toast');
 
     }
 
@@ -51,6 +61,26 @@ export class PIMPage {
 
     async verifyEmployeeSearchResults() {
     await expect(this.employeeResult).toBeVisible();
+    }
+
+    async clickEditEmployee() {
+    await this.editButton.click();
+    }
+
+    async verifyPersonalDetailsPageLoaded() {
+    await expect(this.personalDetailsHeading).toBeVisible();
+    }
+
+    async updateMiddleName(name: string) {
+    await this.middleNameInput.fill(name);
+    }
+
+    async clickSaveButton() {
+    await this.saveButton.click();
+    }
+
+    async verifyEmployeeUpdated() {
+    await expect(this.successToast).toBeVisible();
     }
 
 }
