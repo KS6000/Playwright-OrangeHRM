@@ -5,12 +5,14 @@ export class DashboardPage  {
     readonly dashboardHeading: Locator;
     readonly userDropdown: Locator;
     readonly quickLaunchHeading: Locator;
+    readonly assignLeaveQuickLaunch: Locator;
 
     constructor(page: Page) {
         this.page = page;
         this.dashboardHeading = page.getByRole('heading', { name: 'Dashboard' });
         this.userDropdown = page.locator('.oxd-userdropdown-tab');
         this.quickLaunchHeading = page.getByText('Quick Launch');
+        this.assignLeaveQuickLaunch = page.getByText('Assign Leave');
 
     }
 
@@ -29,5 +31,9 @@ export class DashboardPage  {
 
     async verifyQuickLaunchDisplayed() {
     await expect(this.quickLaunchHeading).toBeVisible();
+    }
+
+    async verifyAssignLeaveQuickLaunchDisplayed() {
+    await expect(this.assignLeaveQuickLaunch).toBeVisible();
     }
 }
