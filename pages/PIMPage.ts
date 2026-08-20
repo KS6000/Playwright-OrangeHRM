@@ -15,6 +15,8 @@ export class PIMPage {
     readonly saveButton: Locator;
     readonly personalDetailsHeading: Locator;
     readonly successToast: Locator;
+    readonly deleteButton: Locator;
+    readonly confirmDeleteButton: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -30,6 +32,9 @@ export class PIMPage {
         this.personalDetailsHeading = page.getByRole('heading', {name: 'Personal Details'});
         this.middleNameInput = page.locator('input').nth(2);
         this.saveButton = page.getByRole('button', { name: 'Save' }).first();
+        this.successToast = page.locator('.oxd-toast');
+        this.deleteButton = page.locator('.oxd-icon.bi-trash').first();
+        this.confirmDeleteButton = page.getByRole('button', { name: 'Yes, Delete' });
         this.successToast = page.locator('.oxd-toast');
 
     }
@@ -60,7 +65,7 @@ export class PIMPage {
 }
 
     async verifyEmployeeSearchResults() {
-    await expect(this.employeeResult).toBeVisible();
+    await expect(this.employeeResult).toBeVisible({ timeout: 10000 });
     }
 
     async clickEditEmployee() {
@@ -80,6 +85,18 @@ export class PIMPage {
     }
 
     async verifyEmployeeUpdated() {
+    await expect(this.successToast).toBeVisible();
+    }
+
+    async clickDeleteEmployee() {
+    await this.deleteButton.click();
+    }
+
+    async confirmDeleteEmployee() {
+    await this.confirmDeleteButton.click();
+    }
+
+    async verifyEmployeeDeleted() {
     await expect(this.successToast).toBeVisible();
     }
 
