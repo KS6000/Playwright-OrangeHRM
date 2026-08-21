@@ -6,11 +6,13 @@ export class LeavePage {
     readonly leaveHeading: Locator;
     readonly applyButton: Locator;
 
+
     constructor(page: Page) {
         this.page = page;
         this.leaveMenu = page.locator('//span[text()="Leave"]');
         this.leaveHeading = page.locator('h6');
         this.applyButton = page.locator('button:has-text("Apply")');
+        this.leaveMenu = page.locator('a[href*="leave"]');
     }
 
     async openLeavePage() {
@@ -23,5 +25,9 @@ export class LeavePage {
 
     async clickApplyButton() {
         await this.applyButton.click();
+    }
+
+    async navigateToLeave() {
+    await this.leaveMenu.click();
     }
 }

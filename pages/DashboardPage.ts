@@ -7,6 +7,7 @@ export class DashboardPage  {
     readonly quickLaunchHeading: Locator;
     readonly assignLeaveQuickLaunch: Locator;
     readonly leaveListQuickLaunch: Locator;
+    readonly timesheetsQuickLaunch: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -15,6 +16,7 @@ export class DashboardPage  {
         this.quickLaunchHeading = page.getByText('Quick Launch');
         this.assignLeaveQuickLaunch = page.getByText('Assign Leave');
         this.leaveListQuickLaunch = page.getByRole('button', { name: 'Leave List' });
+        this.timesheetsQuickLaunch = page.getByRole('button', { name: 'Timesheets' });
 
     }
 
@@ -41,5 +43,9 @@ export class DashboardPage  {
 
     async verifyLeaveListQuickLaunchDisplayed() {
     await expect(this.leaveListQuickLaunch).toBeVisible();
+    }
+
+    async verifyTimesheetsQuickLaunchDisplayed() {
+    await expect(this.timesheetsQuickLaunch).toBeVisible();
     }
 }
