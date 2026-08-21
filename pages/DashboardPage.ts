@@ -6,6 +6,7 @@ export class DashboardPage  {
     readonly userDropdown: Locator;
     readonly quickLaunchHeading: Locator;
     readonly assignLeaveQuickLaunch: Locator;
+    readonly leaveListQuickLaunch: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -13,6 +14,7 @@ export class DashboardPage  {
         this.userDropdown = page.locator('.oxd-userdropdown-tab');
         this.quickLaunchHeading = page.getByText('Quick Launch');
         this.assignLeaveQuickLaunch = page.getByText('Assign Leave');
+        this.leaveListQuickLaunch = page.getByRole('button', { name: 'Leave List' });
 
     }
 
@@ -35,5 +37,9 @@ export class DashboardPage  {
 
     async verifyAssignLeaveQuickLaunchDisplayed() {
     await expect(this.assignLeaveQuickLaunch).toBeVisible();
+    }
+
+    async verifyLeaveListQuickLaunchDisplayed() {
+    await expect(this.leaveListQuickLaunch).toBeVisible();
     }
 }
