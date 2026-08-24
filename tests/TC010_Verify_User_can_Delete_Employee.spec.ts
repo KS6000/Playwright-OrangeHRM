@@ -25,9 +25,9 @@ test('TC010 Verify user can delete employee', async ({ page }) => {
 
     await pimPage.verifyPIMPageLoaded();
 
-    await pimPage.searchEmployee('Alexa Rao');
+    await pimPage.searchEmployee('Test Tester');
 
-    await pimPage.verifyEmployeeSearchResults();
+    await pimPage.verifyEmployeeSearchResults('Test Tester');
 
     await pimPage.clickDeleteEmployee();
 

@@ -27,7 +27,7 @@ test('TC009 Verify user can edit employee', async ({ page }) => {
 
     await pimPage.searchEmployee('Jane Brown');
 
-    await pimPage.verifyEmployeeSearchResults();
+    await pimPage.verifyEmployeeSearchResults('Jane Brown');
 
     await pimPage.clickEditEmployee();
 

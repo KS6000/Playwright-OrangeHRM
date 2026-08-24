@@ -20,14 +20,14 @@ export class PIMPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.PIMmenu = page.getByText('PIM');
+        this.PIMmenu = page.getByRole('link', { name: 'PIM' });
         this.pimHeading = page.getByRole('heading', { name: 'PIM' });
         this.employeeInformationHeading = page.getByRole('heading', {name: 'PIM'});
-        this.addEmployeeButton = page.locator('button:has-text("Add")');
+        this.addEmployeeButton = page.getByRole('button', { name: 'Add' })
         this.addEmployeeHeading = page.getByRole('heading', { name: 'Add Employee' });
         this.employeeNameInput = page.locator('input').nth(1);
         this.searchButton = page.getByRole('button', { name: 'Search' });
-        this.employeeResult = page.locator('.oxd-table-body');
+        this.employeeResult = page.getByText('Yery', { exact: true });
         this.editButton = page.locator('.oxd-icon.bi-pencil-fill').first();
         this.personalDetailsHeading = page.getByRole('heading', {name: 'Personal Details'});
         this.middleNameInput = page.locator('input').nth(2);
@@ -44,28 +44,27 @@ export class PIMPage {
     }
 
     async verifyPIMPageLoaded() {
-    await expect(this.employeeInformationHeading).toBeVisible({
-        timeout: 10000
-    });
-
+    await expect(this.employeeInformationHeading).toBeVisible({timeout: 10000});
     await expect(this.employeeInformationHeading).toHaveText('PIM');
     }
 
     async clickAddEmployeeButton() {
-        await this.addEmployeeButton.click();
+    await this.addEmployeeButton.click();
+    await expect(this.addEmployeeHeading).toHaveText('Add Employee', {timeout: 10000});
     }
 
     async verifyAddEmployeePageLoaded() {
-    await expect(this.addEmployeeHeading).toHaveText('Add Employee');
+    await expect(this.addEmployeeHeading).toBeVisible();
     }
 
-    async searchEmployee(employeeName: string) {
+   async searchEmployee(employeeName: string) {
     await this.employeeNameInput.fill(employeeName);
+    await expect(this.searchButton).toBeEnabled();
     await this.searchButton.click();
-}
+    }
 
-    async verifyEmployeeSearchResults() {
-    await expect(this.employeeResult).toBeVisible({ timeout: 10000 });
+   async verifyEmployeeSearchResults(employeeName: string) {
+    await expect(this.page.locator('.oxd-table-body')).toBeVisible();
     }
 
     async clickEditEmployee() {
