@@ -13,6 +13,8 @@ export class AdminPage {
     readonly confirmPasswordInput: Locator;
     readonly saveButton: Locator;
     readonly successToast: Locator;
+    readonly searchButton: Locator;
+    readonly userTable: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -27,6 +29,9 @@ export class AdminPage {
         this.confirmPasswordInput = page.locator('input[type="password"]').nth(1);
         this.saveButton = page.getByRole('button', { name: 'Save' });
         this.successToast = page.locator('.oxd-toast');
+        this.usernameInput = page.locator('input.oxd-input').nth(1);
+        this.searchButton = page.locator('button:has-text("Search")');
+        this.userTable = page.locator('.oxd-table-body');
     }
 
     async openAdminPage() {
@@ -47,5 +52,14 @@ export class AdminPage {
 
     async verifyAddUserPageLoaded() {
     await expect(this.saveButton).toBeVisible();
+    }
+
+    async searchSystemUser(username: string) {
+    await this.usernameInput.fill(username);
+    await this.searchButton.click();
+    }
+
+    async verifySystemUserSearchResults() {
+    await expect(this.userTable).toBeVisible();
     }
 }
