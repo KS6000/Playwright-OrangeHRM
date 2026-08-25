@@ -1,0 +1,31 @@
+import { test } from '@playwright/test';
+import { LoginPage } from '../pages/LoginPage';
+import { DashboardPage } from '../pages/DashboardPage';
+import { AdminPage } from '../pages/AdminPage';
+import { testData } from '../utils/testData';
+
+test('TC017 Verify user can add system user page opens', async({ page }) => {
+
+    const loginPage = new LoginPage(page);
+    const dashboardPage = new DashboardPage(page);
+    const adminPage = new AdminPage(page);
+
+    await loginPage.navigateToLoginPage();
+
+    await loginPage.login(
+        testData.username,
+        testData.password
+    );
+
+    await loginPage.waitForDashboard();
+
+    await dashboardPage.verifyDashboardLoaded();
+
+    await adminPage.navigateToAdmin();
+
+    await adminPage.verifyAdminPageLoaded();
+
+    await adminPage.clickAddButton();
+
+    await adminPage.verifyAddUserPageLoaded();
+});
