@@ -9,7 +9,7 @@ export class AdminPage {
     constructor(page: Page) {
         this.page = page;
         this.adminMenu = page.locator('//span[text()="Admin"]');
-        this.systemUserHeading = page.locator('h6');
+        this.systemUserHeading = page.getByRole('heading', {name: 'Admin'});
         this.addButton = page.locator('button:has-text("Add")');
 
     }
@@ -18,8 +18,12 @@ export class AdminPage {
         await this.adminMenu.click();
     }
 
+    async navigateToAdmin() {
+    await this.adminMenu.click();
+    }
+
     async verifyAdminPageLoaded() {
-        await expect(this.systemUserHeading).toHaveText('Admin');
+        await expect(this.systemUserHeading).toBeVisible();
     }
 
     async clickAddButton() {
