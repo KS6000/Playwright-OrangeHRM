@@ -15,6 +15,7 @@ export class AdminPage {
     readonly successToast: Locator;
     readonly searchButton: Locator;
     readonly userTable: Locator;
+    readonly editButton: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -32,6 +33,7 @@ export class AdminPage {
         this.usernameInput = page.locator('input.oxd-input').nth(1);
         this.searchButton = page.locator('button:has-text("Search")');
         this.userTable = page.locator('.oxd-table-body');
+        this.editButton = page.locator('button i.bi-pencil-fill').first();
     }
 
     async openAdminPage() {
@@ -61,5 +63,30 @@ export class AdminPage {
 
     async verifySystemUserSearchResults() {
     await expect(this.userTable).toBeVisible();
+    }
+
+    async clickEditButton() {
+    await this.editButton.click();
+    }
+
+    async updateUsername(username: string) {
+    await this.usernameInput.fill(username);
+    }
+
+    async clickSaveButton() {
+    await this.saveButton.click();
+    }
+
+    async verifyUserUpdated() {
+    await expect(this.successToast).toBeVisible();
+    }
+
+    async editUsername(newUsername: string) {
+    await this.usernameInput.clear();
+    await this.usernameInput.fill(newUsername);
+    }
+
+    async verifySuccessToast() {
+    await expect(this.successToast).toBeVisible();
     }
 }
