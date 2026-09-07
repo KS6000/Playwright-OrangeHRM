@@ -16,10 +16,14 @@ export class AdminPage {
     readonly searchButton: Locator;
     readonly userTable: Locator;
     readonly editButton: Locator;
+    readonly deleteButton: Locator;
+    readonly confirmDeleteButton: Locator;
+    readonly employeeNameSearchInput: Locator;
+    readonly resetButton: Locator;
 
     constructor(page: Page) {
         this.page = page;
-        this.adminMenu = page.locator('//span[text()="Admin"]');
+        this.adminMenu = page.getByRole('link', { name: 'Admin' });
         this.systemUserHeading = page.getByRole('heading', {name: 'Admin'});
         this.addButton = page.locator('button:has-text("Add")');
         this.userRoleDropdown = page.locator('.oxd-select-text').first();
@@ -34,6 +38,10 @@ export class AdminPage {
         this.searchButton = page.locator('button:has-text("Search")');
         this.userTable = page.locator('.oxd-table-body');
         this.editButton = page.locator('button i.bi-pencil-fill').first();
+        this.deleteButton = page.locator('button:has(i.bi-trash)').first();
+        this.confirmDeleteButton = page.getByRole('button', { name: 'Yes, Delete' });
+        this.employeeNameSearchInput = page.locator('input[placeholder="Type for hints..."]');
+        this.resetButton = page.getByRole('button', { name: 'Reset' });
     }
 
     async openAdminPage() {
@@ -42,10 +50,11 @@ export class AdminPage {
 
     async navigateToAdmin() {
     await this.adminMenu.click();
+    await this.page.waitForURL(/admin/);
     }
 
     async verifyAdminPageLoaded() {
-        await expect(this.systemUserHeading).toBeVisible();
+    await expect(this.systemUserHeading).toBeVisible();
     }
 
     async clickAddButton() {
@@ -89,4 +98,34 @@ export class AdminPage {
     async verifySuccessToast() {
     await expect(this.successToast).toBeVisible();
     }
+
+    async clickDeleteButton() {
+    await this.deleteButton.waitFor({
+        state: 'visible'
+    });
+
+    await this.deleteButton.click({
+        force: true
+    });
+    }
+
+    async confirmDelete() {
+    await this.confirmDeleteButton.click();
+    }
+
+    async searchEmployeeName(employeeName: string) {
+    await this.employeeNameInput.fill(employeeName);
+    await this.page.keyboard.press('ArrowDown');
+    await this.page.keyboard.press('Enter');
+    await this.searchButton.click();
+    }
+
+    async clickResetButton() {
+    await this.resetButton.click();
+    }
+
+    async verifySearchFieldsCleared() {
+    await expect(this.employeeNameInput).toHaveValue('');
+    }
+
 }

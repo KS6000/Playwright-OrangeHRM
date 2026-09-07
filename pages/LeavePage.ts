@@ -13,7 +13,13 @@ export class LeavePage {
     readonly applyMenu: Locator;
     readonly loader: Locator;
     readonly applyLeaveHeading: Locator;
-
+    readonly leaveListButton: Locator;
+    readonly employeeNameInput: Locator;
+    readonly searchButton: Locator;
+    readonly noRecordsFoundMessage: Locator;
+    readonly resetButton: Locator
+    readonly assignLeaveButton: Locator;
+    readonly assignLeaveHeading: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -30,6 +36,13 @@ export class LeavePage {
         this.applyMenu = page.locator('a:has-text("Apply")');
         this.loader = page.locator('.oxd-form-loader');
         this.applyLeaveHeading = page.getByRole('heading', {name: 'Apply Leave'});
+        this.leaveListButton = page.getByRole('link', { name: 'Leave List' })
+        this.employeeNameInput = page.locator('input[placeholder="Type for hints..."]');
+        this.searchButton = page.locator('button:has-text("Search")');
+        this.noRecordsFoundMessage = page.locator('.orangehrm-paper-container span.oxd-text--span').first();
+        this.resetButton = page.locator('button:has-text("Reset")');
+        this.assignLeaveButton = page.getByRole('link', { name: 'Assign Leave' });
+        this.assignLeaveHeading = page.getByRole('heading', { name: 'Assign Leave' });
     }
 
     async openLeavePage() {
@@ -80,5 +93,47 @@ export class LeavePage {
 
     async verifyApplyLeavePageLoaded() {
     await expect(this.applyLeaveHeading).toHaveText('Apply Leave');
+    }
+
+    async openLeaveList() {
+    await this.leaveListButton.click();
+    }
+
+    async verifyLeaveListLoaded() {
+    await expect(
+        this.page.getByRole('heading', { name: 'Leave List' })
+    ).toBeVisible();
+    }
+
+    async searchLeaveRecord(employeeName: string) {
+    await this.employeeNameInput.fill(employeeName);
+    await this.page.keyboard.press('ArrowDown');
+    await this.page.keyboard.press('Enter');
+    await this.searchButton.click();
+    }
+
+    async verifyNoLeaveRecordsFound() {
+    await expect(this.noRecordsFoundMessage).toBeVisible();
+    }
+
+    async clickResetButton() {
+    await this.resetButton.click();
+    }
+
+    async verifyLeaveSearchFieldsCleared() {
+    await expect(this.employeeNameInput).toHaveValue('');
+    }
+
+    async verifyLeaveSearchResultsDisplayed() {
+    await expect(this.page.locator('table')).toBeVisible();
+    }
+
+    async openAssignLeave() {
+    await this.assignLeaveButton.click();
+    }
+
+    async verifyAssignLeavePageLoaded() {
+    await this.page.waitForURL(/assignLeave/);
+    await expect(this.assignLeaveHeading).toBeVisible();
     }
 }
