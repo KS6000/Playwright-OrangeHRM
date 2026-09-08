@@ -96,13 +96,14 @@ export class LeavePage {
     }
 
     async openLeaveList() {
+    await this.leaveListButton.waitFor();
     await this.leaveListButton.click();
     }
 
     async verifyLeaveListLoaded() {
     await expect(
         this.page.getByRole('heading', { name: 'Leave List' })
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 10000 });
     }
 
     async searchLeaveRecord(employeeName: string) {

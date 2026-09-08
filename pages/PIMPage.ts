@@ -65,6 +65,8 @@ export class PIMPage {
 
    async verifyEmployeeSearchResults(employeeName: string) {
     await expect(this.page.locator('.oxd-table-body')).toBeVisible();
+    await expect(this.page.getByText(employeeName)).toBeVisible();
+
     }
 
     async clickEditEmployee() {
@@ -96,7 +98,7 @@ export class PIMPage {
     }
 
     async verifyEmployeeDeleted() {
-    await expect(this.successToast).toBeVisible();
+    await expect(this.successToast).toBeVisible({ timeout: 10000 });
     }
 
 }
