@@ -34,13 +34,23 @@ export class LoginPage {
     }
 
     async verifyErrorMessage(message: string) {
-    await expect(this.errorMessage).toHaveText(message);
+    await expect(this.errorMessage).toBeVisible({
+        timeout: 10000
+    });
+
+    await expect(this.errorMessage).toHaveText(message, {
+        timeout: 10000
+    });
     }
 
     async login(username: string, password: string) {
     await this.enterUsername(username);
     await this.enterPassword(password);
-    await this.clickLogin();
+
+    await Promise.all([
+        this.page.waitForLoadState('networkidle'),
+        this.clickLogin()
+    ]);
     }
     
     async waitForDashboard() {
