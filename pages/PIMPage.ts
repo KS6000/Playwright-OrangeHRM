@@ -59,15 +59,16 @@ export class PIMPage {
 
    async searchEmployee(employeeName: string) {
     await this.employeeNameInput.fill(employeeName);
-    await expect(this.searchButton).toBeEnabled();
+    await expect(this.searchButton).toBeEnabled({timeout: 10000});
     await this.searchButton.click();
+    await this.page.waitForLoadState('networkidle');
     }
 
    async verifyEmployeeSearchResults(employeeName: string) {
-    await expect(this.page.locator('.oxd-table-body')).toBeVisible();
-    await expect(this.page.getByText(employeeName)).toBeVisible();
-
-    }
+    await expect(
+    this.page.locator('.oxd-table-body')).toBeVisible({timeout: 10000});
+    await expect(this.page.getByText(employeeName)).toBeVisible({timeout: 10000});
+   }
 
     async clickEditEmployee() {
     await this.editButton.click();
